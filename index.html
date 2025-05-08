@@ -1,26 +1,34 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>LED Dashboard (Demo)</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LED Steuerung</title>
   <style>
     body {
       font-family: sans-serif;
+      background-color: #f0f0f0;
       text-align: center;
       padding-top: 50px;
-      background-color: #f9f9f9;
     }
 
-    button {
-      font-size: 3rem;
-      padding: 40px 80px;
-      margin: 50px;
+    #ledButton {
+      font-size: 1.5rem;
+      padding: 20px 40px;
+      background-color: #007bff;
+      color: white;
       border: none;
-      border-radius: 20px;
-      background-color: white;
-      color: black;
+      border-radius: 10px;
       cursor: pointer;
+      margin: 20px auto;
+      display: block;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    }
+
+    #ledButton:hover {
+      background-color: #0056b3;
+      transform: scale(1.05);
+      transition: 0.2s;
     }
 
     .led {
@@ -29,14 +37,8 @@
       margin: 30px auto;
       border-radius: 50%;
       background-color: gray;
-      box-shadow: 0 0 10px rgba(0,0,0,0.2);
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
     }
-    
-    button:hover {
-  background-color: #218838;  /* dunkleres Grün beim Hover */
-  transform: scale(1.05);     /* leicht vergrößern */
-  transition: 0.2s ease;
-  }
 
     .led.on {
       background-color: limegreen;
@@ -45,9 +47,8 @@
   </style>
 </head>
 <body>
-  <h1>LED Steuerung (Demo)</h1>
-  <button onclick="toggleLED()">LED</button>
-
+  <h1>LED Steuerung</h1>
+  <button id="ledButton" onclick="toggleLED()">LED AN/AUS</button>
   <div id="led" class="led"></div>
 
   <script>
@@ -56,18 +57,16 @@
     function toggleLED() {
       ledAn = !ledAn;
 
-      // Arduino-Kommunikation auskommentiert
-      /*
-      const status = ledAn ? 'on' : 'off';
-      fetch('http://DEINE-IP/led/' + status)
-        .then(res => res.text())
-        .then(txt => console.log('Antwort: ' + txt))
-        .catch(err => console.log('Fehler: ' + err));
-      */
+      // Visuelle Anzeige ändern
+      const ledElement = document.getElementById("led");
+      ledElement.classList.toggle("on", ledAn);
 
-      // Visuelle LED aktualisieren
-      const ledElement = document.getElementById('led');
-      ledElement.classList.toggle('on', ledAn);
+      // Anfrage an den Arduino senden
+      const status = ledAn ? "on" : "off";
+      fetch("http://192.168.1.42/led/" + status)  // ← DEINE IP HIER EINTRAGEN
+        .then(res => res.text())
+        .then(txt => console.log("Antwort vom Arduino:", txt))
+        .catch(err => console.log("Fehler:", err));
     }
   </script>
 </body>
