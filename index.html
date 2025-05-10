@@ -63,7 +63,7 @@
 
       // Anfrage an den Arduino senden
       const status = ledAn ? "on" : "off";
-      fetch("https://9836-86-56-238-187.ngrok-free.app/led/on")
+      fetch("x.x.x.x/led/on")
         .then(res => res.text())
         .then(txt => console.log("Antwort vom Arduino:", txt))
         .catch(err => console.log("Fehler:", err));
