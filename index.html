@@ -15,8 +15,8 @@
     #ledButton {
       font-size: 1.5rem;
       padding: 20px 40px;
-      background-color: white;
-      color: black;
+      background-color: black;
+      color: white;
       border: none;
       border-radius: 10px;
       cursor: pointer;
@@ -63,7 +63,7 @@
 
       // Anfrage an den Arduino senden
       const status = ledAn ? "on" : "off";
-      fetch("http://192.168.0.14/led/" + status)
+      fetch("https://9836-86-56-238-187.ngrok-free.app/led/on")
         .then(res => res.text())
         .then(txt => console.log("Antwort vom Arduino:", txt))
         .catch(err => console.log("Fehler:", err));
